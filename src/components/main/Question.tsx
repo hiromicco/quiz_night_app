@@ -1,7 +1,7 @@
+import React from "react";
 import styled from "styled-components";
 
-const Question = () => {
-    const SQuestion = styled.div`
+const SQuestion = styled.div`
         text-align: left;
         margin-bottom: 30px;
 
@@ -20,11 +20,18 @@ const Question = () => {
             background-color: #F4CBAE;
         }
     `
+
+const Question: React.FC<{ question?: string, no: number }> = ({question, no}) => {
+    // const quiz: QuizProps = {
+    //     no: 1,
+    //     question: '以下のサービスのうち、AWSデータベースサービスはどれでしょう？',
+    //     options: ['Amazon Redshift', 'AWS Storage Gateway', 'AWS Database Migration Service', 'AWS Glue'],
+    // }
     return (
         <SQuestion>
-            <h1 className="number">Q1</h1>
+            <h1 className="number">Q{no}</h1>
             <div className="question">
-                <p>以下のサービスのうち、AWSデータベースサービスはどれでしょう？</p>
+                <p>{question}</p>
             </div>
         </SQuestion>
     )

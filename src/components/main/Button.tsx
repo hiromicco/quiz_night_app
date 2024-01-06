@@ -1,7 +1,6 @@
+import React from "react";
 import styled from "styled-components";
-
-const Button = () => {
-    const SButton = styled.button`
+const SButton = styled.button`
         width: 100%;
         height: 60px;
         border: none;
@@ -14,7 +13,9 @@ const Button = () => {
             opacity: .7;
         }
     `
-    return <SButton>次の問題へ</SButton>
+
+const Button: React.FC<{ updateQuizIndex: () => void; }> = ({updateQuizIndex}) => {
+    return <SButton onClick={updateQuizIndex}>次の問題へ</SButton>
 };
 
 export default Button;

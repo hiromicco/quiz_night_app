@@ -1,10 +1,7 @@
-import { MouseEvent } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-const Options = () => {
-    const options = ['Amazon Redshift', 'AWS Storage Gateway', 'AWS Database Migration Service', 'AWS Glue'];
-
-    const SOptions = styled.div`
+const SOptions = styled.div`
         margin-bottom: 60px;
         .option {
             width: 100%;
@@ -15,25 +12,38 @@ const Options = () => {
             padding: 12px;
             margin-bottom: 15px;
             text-align: left;
-            cursor: pointer;
-        }
+            cursor: pointer; 
 
-        /* &:hover {
-            opacity: .7;
-        } */
+            &:hover {
+            opacity: .8;
+            }  
 
-        .isSelected {
+            &.isSelected {
             background-color: #4B7F9B;
-        }    
+            }  
+        }  
     `
 
-    const selectHandler = (e: MouseEvent) => {
-        console.log(e)
-        e.target
+const Options: React.FC<{options: string[]}> = ({options}) => {
+    const [ selectedOption, setSelectedOption ] = useState<string | null>(null);
+
+    // const options = ['Amazon Redshift', 'AWS Storage Gateway', 'AWS Database Migration Service', 'AWS Glue'];
+
+    const selectHandler = (option: string) => {
+        console.log(option)
+        setSelectedOption(option)
     }
     return (
         <SOptions>
-            {options.map((option) => <button className="option" key={option} onClick={selectHandler}>{option}</button>)}
+            {options?.map((option) => (
+                <button
+                className={`option ${selectedOption === option ?  'isSelected' : ''}`}
+                key={option} 
+                onClick={() => selectHandler(option)}
+                >
+                    {option}
+                </button>
+            ))}
         </SOptions>
     )
 }
