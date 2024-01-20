@@ -1,5 +1,6 @@
-import React from "react";
 import styled from "styled-components";
+import { useQuizContext } from "../../services/useQuizContext";
+
 const SButton = styled.button`
         width: 100%;
         height: 60px;
@@ -14,8 +15,20 @@ const SButton = styled.button`
         }
     `
 
-const Button: React.FC<{ updateQuizIndex: () => void; }> = ({updateQuizIndex}) => {
-    return <SButton onClick={updateQuizIndex}>次の問題へ</SButton>
+const Button = () => {
+
+    const { quizzes, currentQuizIndex, setCurrentQuizIndex, setSelectedOption } = useQuizContext();
+
+    const text = currentQuizIndex < quizzes.length - 1 ? '次の問題へ' 
+                    : currentQuizIndex === quizzes.length - 1 ? '結果を見る'  // 最後の問題
+                    : 'クイズを始める';  // 結果表示ページ
+
+    const toNext = () => {
+        setCurrentQuizIndex(prev => ++prev);
+        setSelectedOption(null);
+    }
+
+    return <SButton onClick={toNext}>{text}</SButton>
 };
 
 export default Button;

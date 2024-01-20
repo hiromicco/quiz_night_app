@@ -1,14 +1,16 @@
-// import { useState } from 'react'
 import Header from './components/Header';
+import Quiz from './pages/Quiz';
 import './App.css'
-import Quiz from './components/main/Quiz';
+import { QuizContextProvider } from './services/QuizContext';
 
 function App() {
     
     return (
         <>
             <Header />
-            <Quiz />
+            <QuizContextProvider>
+                <Quiz />
+            </QuizContextProvider>
         </>
     )
 }
