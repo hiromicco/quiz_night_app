@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import Button from "./Button";
-import Options from "./Options";
-import Question from "./Question";
+import Button from "../components/main/Button";
+import Options from "../components/main/Options";
+import Question from '../components/main/Question';
 
 const Main = styled.main`
     width: 330px;

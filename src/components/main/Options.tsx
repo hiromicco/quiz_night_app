@@ -1,10 +1,7 @@
-import { MouseEvent } from "react";
 import styled from "styled-components";
+import { useQuizContext } from "../../services/useQuizContext";
 
-const Options = () => {
-    const options = ['Amazon Redshift', 'AWS Storage Gateway', 'AWS Database Migration Service', 'AWS Glue'];
-
-    const SOptions = styled.div`
+const SOptions = styled.div`
         margin-bottom: 60px;
         .option {
             width: 100%;
@@ -14,26 +11,59 @@ const Options = () => {
             background-color: #D3E1E9;
             padding: 12px;
             margin-bottom: 15px;
-            text-align: left;
-            cursor: pointer;
-        }
+            text-align: center;
 
-        /* &:hover {
-            opacity: .7;
-        } */
+            &:not(.disabled) {
+                cursor: pointer; 
+            }
 
-        .isSelected {
-            background-color: #4B7F9B;
-        }    
+            &:hover:not(.disabled) {
+                opacity: .8;
+            }  
+
+            &.isCorrect {
+                background-color: #4B7F9B;
+            }
+
+            &.isWrong {
+                background-color: #E7896F;
+            } 
+
+        }  
     `
 
-    const selectHandler = (e: MouseEvent) => {
-        console.log(e)
-        e.target
+const Options = () => {
+    const { quizzes, setQuizzes, currentQuizIndex, selectedOption, setSelectedOption } = useQuizContext();
+
+    const quiz = quizzes[currentQuizIndex];
+    const answer = quiz?.options[quiz.answerIndex];
+    
+    const selectHandler = (option: string) => {
+        // 一度選択後は選択できない
+        if (!selectedOption) {
+            setSelectedOption(option);
+
+            const updatedQuizzes = [ ...quizzes ];
+            updatedQuizzes[currentQuizIndex].isCorrect = option === answer;
+            setQuizzes(updatedQuizzes);
+        }
     }
+
     return (
         <SOptions>
-            {options.map((option) => <button className="option" key={option} onClick={selectHandler}>{option}</button>)}
+            {quiz?.options.map((option) => (
+                <button
+                className={
+                    `option 
+                    ${selectedOption === option ? (selectedOption === answer ? 'isCorrect' : 'isWrong') : ''} 
+                    ${selectedOption ? 'disabled' : ''}`
+                }
+                key={option} 
+                onClick={() => selectHandler(option)}
+                >
+                    {option}
+                </button>
+            ))}
         </SOptions>
     )
 }
